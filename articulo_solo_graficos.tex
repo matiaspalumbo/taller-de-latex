@@ -1,0 +1,295 @@
+% Le damos al documento formato de artítulo, con letra tamaño 12pt e idioma español
+\documentclass[12pt, spanish]{article}
+
+
+%%%%%% IDIOMA Y FUENTES
+% Algunos comandos pa. a configurar documentos en idioma español
+% Más info: overleaf.com/learn/latex/International_language_support
+
+% El paquete T1 es para que la separación de palabras entre renglones funcione bien (para español o idiomas con acentos o caracteres especiales)
+\usepackage[T1]{fontenc}
+% Para soportar el formato español (por ejemplo, cambia la palabra clave "Theorem" por "Teorema")
+% "es-noindentfirst" sirve para no indentar los primeros párrafos de cada sección
+% "es-noindentfirst" sirve para no indentar los primeros párrafos de cada sección
+% "shorthands=off" quita algunos shortcuts confusos para tipear comillas (por ej. << >>)
+\usepackage[spanish, es-noindentfirst, shorthands=off]{babel}
+% Configura las dimensiones de la página y márgenes
+\usepackage[a4paper,width=150mm,top=25mm,bottom=25mm]{geometry}
+% Encabezados
+\usepackage{fancyhdr}
+\pagestyle{fancy} % Usamos el estilo fancy
+% Para personalizar pie de página
+% \fancyfoot{} % se borra el estilo actual
+% % Para agregar una línea en el pie de página
+% \renewcommand{\footrulewidth}{0.4pt}
+% % Para agregar la página a la derecha
+% \fancyfoot[R]{\thepage}
+% % Para calmar una warning del paquete fancyhdr cuando hay títulos largos
+\setlength{\headheight}{14.61858pt}
+
+
+% Para evitar warnings molestas sobre líneas que hacen un poco de overflow en un renglón
+\emergencystretch=1em
+
+% % Para customizar en profundidad las secciones y capítulos
+% \usepackage{titlesec}
+% % Modificamos el formato de los capítulos
+% \titleformat{\part} % comando
+% [display] % forma
+% {\vspace{1cm}\bfseries\LARGE\raggedright} % formato
+% {Parte\ \thepart} % label
+% {2ex} % separación
+% {\huge} % a ejecutar antes del título
+% [\hrule] % a ejecutar después del título - \hrule dibuja una línea
+
+% % Agregamos la parte en la izquierda del encabezado
+% \fancyhead[L]{\thepart. \partmark}
+
+%%%%%% SIMBOLOS y FUENTES
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+% Para que anden juntas mathcal y mathscr (dos fuentes de math mode)
+\usepackage[scr=rsfs]{mathalpha}
+
+
+%%%%%% FORMATO GENERAL
+% Para calmar algunas warnings sobre el paquete babel y minted
+\usepackage{csquotes}
+% Para configurar formato de los links
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true, % colorea links en lugar de recuadrarlos
+    linktoc=all, % hace que el índice contenga links a las secciones
+    linkcolor=black, % color de los links
+    allcolors=black, % ...no recuerdo pero lo dejamos
+}
+% Para incluir tipo del resultado en cada cita usando \cref (en lugar de \ref)
+\usepackage[nameinlink]{cleveref}
+% Para configurar formato de listas
+% \itemsep = vertical space added after each item in the list.
+% \parsep = vertical space added after each paragraph in the list.
+% \topsep = vertical space added above and below the list.
+% \partopsep = vertical space added above and below the list, but only if the list starts a new paragraph.
+\usepackage{enumitem}
+\setlist[enumerate]{
+    topsep=0.17cm,
+    itemsep=0.1cm,
+    parsep=0.05cm,
+}
+\setlist[itemize]{
+    topsep=0.17cm,
+    itemsep=0.1cm,
+    parsep=0.05cm,
+    % label=$\bullet$ % Para cambiar la label para todos los itemize
+}
+\renewcommand\labelitemi{\labelitemfont \textbullet}
+\renewcommand\labelitemii {\labelitemfont \bfseries \textendash}
+
+
+%%%%%% GRAFICOS E IMAGENES
+% Para generar cualquier gráficos que te imagines
+\usepackage{tikz}
+% Para generar diagramas conmutativos
+\usepackage{tikz-cd}
+% Para grafos
+\usetikzlibrary{graphs}
+% Para la forma alternativa de mostrar grafos
+\tikzset{
+    point/.style = {circle, draw, inner sep=0.04cm,fill,node contents={}},
+}
+% Para evitar problemas en tikz con acentos en español
+\usetikzlibrary{babel}
+% Paquete alternativo para gráficos de funciones
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18} % Compatibilidad de versiones del paquete
+
+% Se pueden definir colores en LaTeX!
+\definecolor{salmon}{HTML}{c23d52} % purplish gray
+
+
+%%%%%% COMANDOS MISCELANEOS
+% Algunos comandos útiles para agilizar el tipeo
+\newcommand{\real}[0]{\mathbb{R}} % números reales
+\newcommand{\nat}[0]{\mathbb{N}} % números naturales
+\newcommand{\id}[0]{\mathrm{id}} % función identidad
+\newcommand{\spanev}[0]{\mathrm{span}} % espacio vectorial generado
+\newcommand{\sgn}[0]{\mathrm{sgn}} % función signo
+\newcommand{\re}[1]{Re(#1)} % parte real de un número complejo
+\newcommand{\im}[1]{Im(#1)} % parte imaginaria de un número complejo
+\newcommand{\rest}[2]{{#1}_{|_{#2}}} % Restricción de una función a un conjunto
+\newcommand{\norm}[1]{\|#1\|} % norma
+\newcommand{\prodint}[2]{\langle #1, #2 \rangle} % producto escalar
+
+
+%%%%%% TITULO DEL DOCUMENTO
+\title{Taller de \LaTeX}
+\author{Matías Palumbo}
+% Por defecto la fecha del artículo es \today (fecha de hoy). Se puede personalizar
+\date{\today}
+
+
+\begin{document}
+
+
+\section{Gráficos, diagramas y misceláneos}
+
+\subsection{Gráficos y diagramas}
+
+La librería \verb|tikz| va a ser tu mejor amigo. Se pueden hacer desde diagramas conmutativos hasta grafos y gráficos de funciones, entre otras cosas. Una cosa a tener en cuenta es que \LaTeX\ no está hecho para generar gráficos excesivamente pesados (y además los de Overleaf son bastante amarretes con el tiempo de compilación permitido). Si querés graficar muchas cosas o cosas bastante pesadas para el compilador, considerá usar \LaTeX\ offline y/o importar los gráficos de otro software.
+
+Algunos ejemplos concretos:
+\begin{itemize}
+    \item \textit{Gráficos} de funciones y curvas con el paquete \verb|pgfplots| (más info \href{https://www.overleaf.com/learn/latex/Pgfplots_package}{acá}).
+    
+    \begin{center}        
+        \begin{tikzpicture}
+        \begin{axis}[
+        % Configuración de los ejes
+            title=Funciones trigonométricas,
+            axis lines = center,
+            xlabel = $x$,
+            ylabel = $y$,
+        ]
+        
+        % Agregamos el plot
+        \addplot [
+            domain=-6:6, 
+            samples=50, % Precisión del gráfico 
+            color=teal,
+        ]
+        % Para funciones trigonométricas convertir la variables a grados (?)
+        {sin(deg(x)};
+        % Podemos agregar una caja de texto con la ley
+        \addlegendentry{$\sin(x)$}
+        
+        % Se puede agregar más de un gráfico
+        \addplot [
+            domain=-6:6, 
+            samples=50, 
+            color=orange,
+            ]
+            {cos(deg(x))};
+        \addlegendentry{$\cos(x)$}
+        
+        \end{axis}
+        \end{tikzpicture}
+    \end{center}
+
+    Se pueden crear gráficos en 3 dimensiones:
+    
+    \begin{center}
+        \begin{tikzpicture}
+        \begin{axis}[colormap/cool]
+        \addplot3[
+            surf, % 'surf' indica que queremos graficar una superficie
+            domain=-13:13,
+            domain y=-13:13, % Si no se especifica el dominio de x e y son iguales
+            samples=30 % Precisión del gráfico
+        ]
+        {sin(deg(sqrt(x^2+y^2)))/sqrt(x^2+y^2)};
+        \end{axis}
+        \end{tikzpicture}
+    \end{center}
+    Y curvas en el plano o espacio:
+
+    \begin{center}
+        \begin{tikzpicture}
+        \begin{axis}[view={60}{30}] % ángulo de la cámara
+        \addplot3[
+            domain=0:5*pi,
+            samples=50,
+            samples y = 0, % para que no se conecten comienzo y final de la curva
+            color=red
+        ]
+        ({sqrt(x) * cos(deg(x))}, {sqrt(x) * sin(deg(x))}, {x});
+        \end{axis}
+        \end{tikzpicture}
+    \end{center}
+
+    También se puede usando la librería \verb|tikz| directamente, aunque quizás es menos amigable:
+    
+    \begin{center}
+    \begin{tikzpicture}[scale=1]
+
+    % Dibujamos la grilla
+    \draw[gray,very thin] (-4,-2) grid (4, 2)
+       [step=0.5cm] (-4,-2) grid (4, 2);
+
+    % Agregamos ejes y etiquetas
+    \draw[->] (-4,0) -- (4,0) node[below left] {$x$};
+    \draw[->] (0,-2) -- (0,2) node[below right] {$y$};
+
+    % Agregamos rayitas en los ejes
+    \foreach \pos in {-1, -2, -3, -4, 1, 2, 3}
+      \draw[shift={(\pos,0)}] (0pt,2pt) -- (0pt,-2pt) node[below] {};
+    \foreach \pos in {-2, -1, 1}
+      \draw[shift={(0,\pos)}] (2pt,0pt) -- (-2pt,0pt) node[right, xshift=0.2cm] {};
+
+    % Dibujamos el gráfico
+    \draw[
+        thick,
+        variable=\t, % variable
+        domain=-4:4, % dominio
+        samples=50, % precisión de la curva
+        color=teal,
+    ]
+      plot ({\t},{sin(\t r)}) % ley del a curva
+      node[below left] {$y = \sin(x)$}; % etiqueta
+    \end{tikzpicture}
+    \end{center}
+
+    Otros tipos de gráficos:
+    \begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            title=Preferencias de medialunas según carrera,
+            ybar,
+            enlargelimits=0.25,
+            legend style={at={(0.5,-0.15)},
+            anchor=north,legend columns=-1},
+            ylabel={\#\ estudiantes},
+            symbolic x coords={Dulces,Indistinto,Saladas},
+            xtick=data,
+            nodes near coords,
+            nodes near coords align={vertical},
+        ]
+        \addplot coordinates {
+            (Dulces,2) (Indistinto,2) (Saladas,1)
+        };
+        \addplot coordinates {
+            (Dulces,6) (Indistinto,2) (Saladas,6)
+        };
+        \addplot coordinates {
+            (Dulces,5) (Indistinto,4) (Saladas,6)
+        };
+        \addplot coordinates {
+            (Dulces,1) (Indistinto,2) (Saladas,5)
+        };
+
+        \legend{LCC,LF,LM,PM}
+        \end{axis}
+    \end{tikzpicture}
+    \end{center}
+
+    \begin{center}
+        \begin{tikzpicture}
+        \begin{axis}[
+            title=Muestras gaussianas,
+            enlargelimits=false,
+            ylabel={$y$},
+            xlabel={$x$}
+        ]
+        \addplot[
+            only marks,
+            scatter,
+            mark=halfcircle*,
+            mark size=2.9pt]
+        table[meta=a]
+        {data/gaussian_samples.dat};
+        \end{axis}
+        \end{tikzpicture}
+    \end{center}
+\end{itemize}
+
+\end{document}

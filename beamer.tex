@@ -1,0 +1,170 @@
+\documentclass[
+    10pt,
+    spanish,
+    t % alínea texto hacia arriba (vertiucalmente)
+]{beamer}
+
+%%%%%% IDIOMA Y FUENTES
+% Algunos comandos pa. a configurar documentos en idioma español
+% Más info: overleaf.com/learn/latex/International_language_support
+
+% El paquete T1 es para que la separación de palabras entre renglones funcione bien (para español o idiomas con acentos o caracteres especiales)
+\usepackage[T1]{fontenc}
+% Para soportar el formato español (por ejemplo, cambia la palabra clave "Theorem" por "Teorema")
+% "es-noindentfirst" sirve para no indentar los primeros párrafos de cada sección
+% "es-noindentfirst" sirve para no indentar los primeros párrafos de cada sección
+% "shorthands=off" quita algunos shortcuts confusos para tipear comillas (por ej. << >>)
+\usepackage[spanish, es-noindentfirst, shorthands=off]{babel}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+
+% Para referenciar bibliografía de a un item
+\usepackage{bibentry}
+
+
+%%%%%% PERSONALIZACION VISUAL
+% Hay muchos temas para elegir
+% Más info en https://www.overleaf.com/learn/latex/Beamer
+\usetheme{CambridgeUS}
+% Podemos personalizar los colores de la plantilla
+\definecolor{color1}{HTML}{392d31} % color terciario
+\definecolor{color2}{HTML}{604D53} % color secundario
+\definecolor{color3}{HTML}{967d85} % titulo de bloques y color primario de paleta
+\definecolor{color4}{HTML}{dcd3d6} % cuerpo de bloques
+
+\setbeamercolor*{palette primary}{bg=color3}
+\setbeamercolor*{palette secondary}{bg=color2, fg = white}
+\setbeamercolor*{palette tertiary}{bg=color1, fg = white}
+\setbeamercolor*{titlelike}{fg=color1}
+\setbeamercolor*{title}{bg=color2, fg = white}
+\setbeamercolor*{item}{fg=color1}
+\setbeamercolor*{caption name}{fg=color1}
+\setbeamercolor*{block body}{bg=color4,fg=black}
+\setbeamercolor*{block title}{bg=color3,fg=black}
+
+% Para agregar el índice al principio de cada sección y resaltar la sección actual
+\AtBeginSection[]
+{
+  \begin{frame}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+
+%%%%%% TEOREMAS Y ENTORNOS
+% Especificamos el nombre del entorno
+\providecommand{\definitionname}{Definición}
+% Comandos para definir entornos de definiciones, teoremas, etc.
+\theoremstyle{definition} % estilo de lo que se va a definir
+% Con \newtheorem se pueden definir entornos para teoremas, definiciones, etc. El primer argumento es el nombre del entorno (en este caso defn) y el segundo es el texto que aparece cuando se usa el entorno (en este caso dejamos que LaTeX lo busque, deberia ser "Definición").
+% Más info: overleaf.com/learn/latex/Theorems_and_proofs
+\newtheorem{defn}{\protect\definitionname}
+
+\providecommand{\remarkname}{Observación}
+\theoremstyle{remark} % observación
+\newtheorem{rem}[defn]{\protect\remarkname}
+
+\providecommand{\theoremname}{Teorema}
+\theoremstyle{plain} % teorema
+\newtheorem{thm}[defn]{\protect\theoremname}
+
+\providecommand{\corollaryname}{Corolario}
+\theoremstyle{plain} % corolario
+\newtheorem{cor}[defn]{\protect\corollaryname}
+
+\providecommand{\lemmaname}{Lema}
+\theoremstyle{plain} % lema
+\newtheorem{lem}[defn]{\protect\lemmaname}
+
+\providecommand{\propositionname}{Proposición}
+\theoremstyle{plain} % proposición
+\newtheorem{prop}[defn]{\protect\propositionname}
+
+\providecommand{\conjecturename}{Conjetura}
+\theoremstyle{plain} % conjetura
+\newtheorem*{conjecture}{\protect\conjecturename}
+
+% Definimos un entorno para demostraciones
+\newenvironment{dem}{\noindent\textit{Demostración.}}{\hfill\qed\par\vspace{10pt}}
+
+
+% Para la carátula
+\title{Título}
+\author{Autor}
+\institute{Instituto}
+\date{24 de septiembre de 2024}
+
+% Se puede personalizar el tamaño de las fuentes en la carátula
+% \setbeamerfont{subtitle}{size=\small}
+% \setbeamerfont{author}{size=\small}
+% \setbeamerfont{date}{size=\small}
+% \setbeamerfont{institute}{size=\small}
+% \setbeamerfont{title}{size=\large}
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+% Indice
+\begin{frame}{Índice}
+    \tableofcontents[hideallsubsections]
+\end{frame}
+
+
+\section{Formato}
+
+\begin{frame}{Título de la slide}
+    Texto, texto y más texto.
+    
+    \begin{theorem}[Teorema del Sándwich]
+    Sea $f$, $g$ y $h$ funciones tales que $g(x) \leq f(x) \leq h(x)$ para todo $x \in [a,b]$, y supongamos que
+    \[
+    \lim_{x \to c} g(x) = \lim_{x \to c} h(x) = L
+    \]
+    para algún $c \in (a,b)$. Entonces, 
+    \[
+    \lim_{x \to c} f(x) = L.
+    \]
+    \end{theorem}
+    \begin{dem}
+        Queda como ejercicio para el lector.
+    \end{dem}
+\end{frame}
+
+\begin{frame}
+    Esto es una... \pause pausa :)\pause
+    \begin{block}{Bloques}
+        Esto es un bloque.
+    \end{block}
+\end{frame}
+
+
+\section{Citas a bibliografía}
+
+\begin{frame}{Citas a bibliografía}
+    \begin{theorem}
+        Sea $f:[a, b]\to\mathbb{R}$ integrable $m, M$ tales que $m \leq f(x) \leq M$ para cada $x \in [a,b]$. Entonces
+        \[
+        m(b-a) \leq \int_a^b f(t)\, dt \leq M(b-a).
+        \]
+    \end{theorem}
+    \nobibliography*
+    \begin{itemize}
+        \item \bibentry{R87_rudin_real_and_complex_analysis}
+    \end{itemize}
+\end{frame}
+
+
+\section{Bibliografía completa}
+
+\begin{frame}{Bibliografía}
+    \nocite{*}
+    \bibliographystyle{amsalpha}
+    \bibliography{bibliografia/bibliografia.bib}
+\end{frame}
+    
+\end{document} 
